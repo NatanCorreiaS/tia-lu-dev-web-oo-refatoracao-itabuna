@@ -1,18 +1,25 @@
 @echo off
-rem Compila todos os arquivos .java da pasta src para a pasta out
-javac .\src\*.java -d .\out
+rem Compila recursivamente todos os arquivos .java em src para out
 
-rem Verifica se a compilação teve sucesso
+rem Cria a pasta de saída, se não existir
+if not exist out (
+    mkdir out
+)
+
+rem Compila todos os .java dentro de src e subpastas
+for /r .\src %%f in (*.java) do (
+    echo Compilando %%f
+)
+
+javac -d out src\**\*.java
+
+rem Verifica erro de compilação
 if %ERRORLEVEL% NEQ 0 (
     echo Houve um erro na compilação.
     exit /b %ERRORLEVEL%
 )
 
-rem Muda para a pasta de saída
-cd .\out
-
-rem Executa a classe Main
+rem Executa a classe principal
+cd out
 java Main
-
-rem Volta para o diretório original (opcional)
 cd ..
