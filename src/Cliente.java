@@ -13,7 +13,7 @@ public class Cliente {
         this.telefone = telefone;
     }
 
-    // Getters
+    // Getters e Setters
     public int getIdCliente() {
         return idCliente;
     }
@@ -23,5 +23,12 @@ public class Cliente {
 
     public String getTelefone() {
         return telefone;
+    }
+
+    public void setNome(String nome) {
+        this.nome = nome;
+    }
+    public void setTelefone(String telefone) {
+        this.telefone = telefone;
     }
 }
