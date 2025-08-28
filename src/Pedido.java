@@ -40,7 +40,7 @@ public class Pedido {
     public String exibirPedido() {
         StringBuilder sb = new StringBuilder();
         sb.append("Pedido ID: ").append(id).append("\n");
-        sb.append("Cliente: ").append(cliente.getNome()).append("\n");
+        sb.append("Cliente:").append(cliente.getNome()).append("\n");
         sb.append("Itens:\n");
         for (ItemCardapio item : itens) {
             sb.append("  - ").append(item.exibirItem()).append("\n");
