@@ -15,11 +15,11 @@ public class Main {
         pedido.adicionarItem(item2);
 
         // Exibindo informações do pedido
-        System.out.println("Pedido ID: " + pedido.getId());
+        System.out.println("Pedido ID :  " + pedido.getId());
         System.out.println("Cliente: " + pedido.getCliente().getNome());
-        System.out.println("Itens do pedido:");
+        System.out.println("Itens do pedido: ");
         for (ItemCardapio item : pedido.getItens()) {
-            System.out.println(" - " + item.exibirItem());
+            System.out.println(" - "  + item.exibirItem());
         }
     }
 }
