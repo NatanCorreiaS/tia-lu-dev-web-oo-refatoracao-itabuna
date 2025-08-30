@@ -1,51 +1,22 @@
 public class ItemCardapio {
+    private static int proximoCodigo = 1;
+    private int codigo;
+    private String nome;
+    private double preco;
 
-       private int id;
-       private String nomedoprato;
-       private double preco;
-
-
-        //construtor
-        public ItemCardapio(int id, String nomedoprato, double preco){
-            this.id = id;
-            this.nomedoprato = nomedoprato;
-            this.preco = preco;
-        }
+    public ItemCardapio(String nome, double preco) {
+        this.codigo = proximoCodigo++;
+        this.nome = nome;
+        this.preco = preco;
+    }
 
         //get e set
-        public int getId() {
-            return id;
-        }
-
-        public void setId(int id) {
-            this.id = id;
-        }
-
-        public String getNomedoprato() {
-            return nomedoprato;
-        }
-
-        public void setNomedoprato(String nomedoprato) {
-            this.nomedoprato = nomedoprato;
-        }
-
-        public double getPreco() {
-            return preco;
-        }
-
-        public void setPreco(double preco) {
-            this.preco = preco;
-        }
-
-        public ItemCardapio() {
-            super();
-        }
-
-        public String exibirItem() {
-            return "ID: " + id + "|" + nomedoprato + " - R$ " + preco;
-        }
-
-
+    public int getCodigo() { return codigo; }
+    public String getNome() { return nome; }
+    public double getPreco() { return preco; }
+    public String exibirItem() {
+        return "Código: " + codigo + ", Nome: " + nome + ", Preço: R$ " + preco;
     }
+}
 
 
