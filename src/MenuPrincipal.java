@@ -140,7 +140,11 @@ public class MenuPrincipal {
     }
 
     private void avancarStatusPedido() {
-        System.out.print("Número do pedido: ");
+        System.out.println("Pedidos cadastrados:");
+        for (Pedido p : dados.getPedidos()) {
+            System.out.println("Número: " + p.getNumero() + " | Estado: " + p.getEstado().getNome());
+        }
+        System.out.print("Número do pedido para avançar status: ");
         int num = scanner.nextInt();
         scanner.nextLine();
         Pedido pedido = null;
@@ -151,11 +155,27 @@ public class MenuPrincipal {
             }
         }
         if (pedido != null) {
-            // Exemplo: avançar para próximo estado (aceitar, preparar, enviar, entregar)
-            // Aqui você pode decidir qual ação executar, por exemplo aceitar, preparar, etc.
-            // Para fins de exemplo, vamos chamar preparar:
+            System.out.println("Escolha a ação para avançar o status:");
+            System.out.println("1. Preparar");
+            System.out.println("2. Enviar para entrega");
+            System.out.println("3. Entregar");
+            int acao = scanner.nextInt();
+            scanner.nextLine();
             try {
-                pedido.preparar();
+                switch (acao) {
+                    case 1:
+                        pedido.preparar();
+                        break;
+                    case 2:
+                        pedido.enviarParaEntrega();
+                        break;
+                    case 3:
+                        pedido.entregar();
+                        break;
+                    default:
+                        System.out.println("Ação inválida!");
+                        return;
+                }
                 System.out.println("Status atualizado: " + pedido.getEstado().getNome());
             } catch (Exception e) {
                 System.out.println("Erro ao avançar status: " + e.getMessage());
