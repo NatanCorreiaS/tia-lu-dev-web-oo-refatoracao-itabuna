@@ -1,4 +1,8 @@
-public class RelatorioSimplificado implements Relatorio {
+package relatorios;
+import modelos.CentralDeDados;
+import modelos.Pedido;
+
+public class RelatorioSimplificadoStrategy implements RelatorioStrategy {
     @Override
     public void gerarRelatorio() {
         CentralDeDados dados = CentralDeDados.getInstancia();

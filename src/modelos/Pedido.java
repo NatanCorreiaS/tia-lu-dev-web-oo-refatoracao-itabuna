@@ -1,5 +1,9 @@
+package modelos;
+
 import java.util.ArrayList;
 import java.util.List;
+import estados.AguardandoAceiteEstado;
+import estados.IPedidoEstado;
 import java.time.LocalDateTime;
 
 public class Pedido {
@@ -8,16 +12,16 @@ public class Pedido {
     private Cliente cliente;
     private List<PedidoItem> itens;
     private double valorTotal;
-    private Status status;
     private LocalDateTime dataHora;
+    private IPedidoEstado estado;
 
     public Pedido(Cliente cliente) {
         this.numero = proximoNumero++;
         this.cliente = cliente;
         this.itens = new ArrayList<>();
         this.valorTotal = 0.0;
-        this.status = Status.ACEITO;
         this.dataHora = LocalDateTime.now();
+        this.estado = new AguardandoAceiteEstado();
     }
 
     public void adicionarItem(ItemCardapio item, int quantidade) {
@@ -51,7 +55,7 @@ public class Pedido {
             sb.append("  - ").append(pi.exibirPedidoItem()).append("\n");
         }
         sb.append("Valor Total: R$ ").append(valorTotal).append("\n");
-        sb.append("Status: ").append(status);
+        sb.append("Status: ").append(estado.getNome());
         return sb.toString();
     }
 
@@ -68,34 +72,17 @@ public class Pedido {
         return valorTotal;
     }
 
-    public Status getStatus() {
-        return status;
+    public IPedidoEstado getEstado() {
+        return estado;
     }
-
-    public void setStatus(Status status) {
-        this.status = status;
+    public void setEstado(IPedidoEstado estado) {
+        this.estado = estado;
     }
-
-    public void avancarStatus() {
-        switch (status) {
-            case ACEITO:
-                status = Status.PREPARANDO;
-                break;
-            case PREPARANDO:
-                status = Status.FEITO;
-                break;
-            case FEITO:
-                status = Status.AGUARDANDO_ENTREGADOR;
-                break;
-            case AGUARDANDO_ENTREGADOR:
-                status = Status.SAIU_PARA_ENTREGA;
-                break;
-            case SAIU_PARA_ENTREGA:
-                status = Status.ENTREGUE;
-                break;
-            case ENTREGUE:
-                // Último status, não avança mais
-                break;
-        }
-    }
+    // Métodos delegados para o estado
+    public void aceitar() { estado.aceitar(this); }
+    public void preparar() { estado.preparar(this); }
+    public void enviarParaEntrega() { estado.enviarParaEntrega(this); }
+    public void entregar() { estado.entregar(this); }
+    public void rejeitar(String motivo) { estado.rejeitar(this, motivo); }
+    public void cancelar() { estado.cancelar(this); }
 }

@@ -1,5 +1,14 @@
 import java.util.Scanner;
 
+import modelos.CentralDeDados;
+import modelos.Cliente;
+import modelos.ItemCardapio;
+import modelos.Pedido;
+import relatorios.RelatorioDetalhadoStrategy;
+import relatorios.RelatorioSimplificadoStrategy;
+import relatorios.RelatorioStrategy;
+
+
 public class MenuPrincipal {
     private CentralDeDados dados = CentralDeDados.getInstancia();
     private Scanner scanner = new Scanner(System.in);
@@ -29,8 +38,16 @@ public class MenuPrincipal {
                 case 5: registrarPedido(); break;
                 case 6: avancarStatusPedido(); break;
                 case 7: consultarPedidosPorStatus(); break;
-                case 8: new RelatorioSimplificado().gerarRelatorio(); break;
-                case 9: new RelatorioDetalhado().gerarRelatorio(); break;
+                case 8: {
+                    RelatorioStrategy relatorio = new RelatorioSimplificadoStrategy();
+                    relatorio.gerarRelatorio();
+                    break;
+                }
+                case 9: {
+                    RelatorioStrategy relatorio = new RelatorioDetalhadoStrategy();
+                    relatorio.gerarRelatorio();
+                    break;
+                }
                 case 0: System.out.println("Saindo..."); break;
                 default: System.out.println("Opção inválida!");
             }
@@ -130,25 +147,25 @@ public class MenuPrincipal {
             }
         }
         if (pedido != null) {
-            pedido.avancarStatus();
-            System.out.println("Status atualizado: " + pedido.getStatus());
+            // Exemplo: avançar para próximo estado (aceitar, preparar, enviar, entregar)
+            // Aqui você pode decidir qual ação executar, por exemplo aceitar, preparar, etc.
+            // Para fins de exemplo, vamos chamar preparar:
+            try {
+                pedido.preparar();
+                System.out.println("Status atualizado: " + pedido.getEstado().getNome());
+            } catch (Exception e) {
+                System.out.println("Erro ao avançar status: " + e.getMessage());
+            }
         } else {
             System.out.println("Pedido não encontrado!");
         }
     }
 
     private void consultarPedidosPorStatus() {
-        System.out.print("Status (ACEITO, PREPARANDO, FEITO, AGUARDANDO_ENTREGADOR, SAIU_PARA_ENTREGA, ENTREGUE): ");
-        String statusStr = scanner.nextLine();
-        Status status;
-        try {
-            status = Status.valueOf(statusStr);
-        } catch (Exception e) {
-            System.out.println("Status inválido!");
-            return;
-        }
+        System.out.print("Nome do estado (ex: Aceito, Preparando, etc): ");
+        String estadoStr = scanner.nextLine();
         for (Pedido p : dados.getPedidos()) {
-            if (p.getStatus() == status) {
+            if (p.getEstado().getNome().equalsIgnoreCase(estadoStr)) {
                 System.out.println(p.exibirPedido());
             }
         }
