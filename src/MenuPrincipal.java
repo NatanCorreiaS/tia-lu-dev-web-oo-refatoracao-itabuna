@@ -166,16 +166,30 @@ public class MenuPrincipal {
     }
 
     private void consultarPedidosPorStatus() {
+        System.out.println("Pedidos cadastrados:");
+        for (Pedido p : dados.getPedidos()) {
+            System.out.println("Número: " + p.getNumero() + " | Estado: " + p.getEstado().getNome());
+        }
         System.out.print("Nome do estado (ex: Aceito, Preparando, etc): ");
         String estadoStr = scanner.nextLine();
+        estadoStr = capitalize(estadoStr);
+        boolean encontrado = false;
         for (Pedido p : dados.getPedidos()) {
             if (p.getEstado().getNome().equalsIgnoreCase(estadoStr)) {
                 System.out.println(p.exibirPedido());
+                encontrado = true;
             }
+        }
+        if (!encontrado) {
+            System.out.println("Nenhum pedido encontrado para o estado informado.");
         }
     }
     
     private void aprovarPedido() {
+        System.out.println("Pedidos cadastrados:");
+        for (Pedido p : dados.getPedidos()) {
+            System.out.println("Número: " + p.getNumero() + " | Estado: " + p.getEstado().getNome());
+        }
         System.out.print("Número do pedido para aprovar: ");
         int num = scanner.nextInt();
         scanner.nextLine();
@@ -199,6 +213,10 @@ public class MenuPrincipal {
     }
 
     private void cancelarPedido() {
+        System.out.println("Pedidos cadastrados:");
+        for (Pedido p : dados.getPedidos()) {
+            System.out.println("Número: " + p.getNumero() + " | Estado: " + p.getEstado().getNome());
+        }
         System.out.print("Número do pedido para cancelar: ");
         int num = scanner.nextInt();
         scanner.nextLine();
@@ -219,6 +237,11 @@ public class MenuPrincipal {
         } else {
             System.out.println("Pedido não encontrado!");
         }
+    }
+    // Função utilitária para capitalizar a primeira letra
+    private String capitalize(String str) {
+        if (str == null || str.isEmpty()) return str;
+        return str.substring(0, 1).toUpperCase() + str.substring(1).toLowerCase();
     }
 
     public static void main(String[] args) {
