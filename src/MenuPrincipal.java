@@ -24,8 +24,10 @@ public class MenuPrincipal {
             System.out.println("5. Registrar Pedido");
             System.out.println("6. Avançar Status de Pedido");
             System.out.println("7. Consultar Pedidos por Status");
-            System.out.println("8. Relatório Simplificado");
-            System.out.println("9. Relatório Detalhado");
+            System.out.println("8. Aprovar Pedido");
+            System.out.println("9. Cancelar Pedido");
+            System.out.println("10. Relatório Simplificado");
+            System.out.println("11. Relatório Detalhado");
             System.out.println("0. Sair");
             System.out.print("Escolha uma opção: ");
             opcao = scanner.nextInt();
@@ -38,12 +40,14 @@ public class MenuPrincipal {
                 case 5: registrarPedido(); break;
                 case 6: avancarStatusPedido(); break;
                 case 7: consultarPedidosPorStatus(); break;
-                case 8: {
+                case 8: aprovarPedido(); break;
+                case 9: cancelarPedido(); break;
+                case 10: {
                     RelatorioStrategy relatorio = new RelatorioSimplificadoStrategy();
                     relatorio.gerarRelatorio();
                     break;
                 }
-                case 9: {
+                case 11: {
                     RelatorioStrategy relatorio = new RelatorioDetalhadoStrategy();
                     relatorio.gerarRelatorio();
                     break;
@@ -168,6 +172,52 @@ public class MenuPrincipal {
             if (p.getEstado().getNome().equalsIgnoreCase(estadoStr)) {
                 System.out.println(p.exibirPedido());
             }
+        }
+    }
+    
+    private void aprovarPedido() {
+        System.out.print("Número do pedido para aprovar: ");
+        int num = scanner.nextInt();
+        scanner.nextLine();
+        Pedido pedido = null;
+        for (Pedido p : dados.getPedidos()) {
+            if (p.getNumero() == num) {
+                pedido = p;
+                break;
+            }
+        }
+        if (pedido != null) {
+            try {
+                pedido.aceitar();
+                System.out.println("Pedido aprovado! Status: " + pedido.getEstado().getNome());
+            } catch (Exception e) {
+                System.out.println("Erro ao aprovar pedido: " + e.getMessage());
+            }
+        } else {
+            System.out.println("Pedido não encontrado!");
+        }
+    }
+
+    private void cancelarPedido() {
+        System.out.print("Número do pedido para cancelar: ");
+        int num = scanner.nextInt();
+        scanner.nextLine();
+        Pedido pedido = null;
+        for (Pedido p : dados.getPedidos()) {
+            if (p.getNumero() == num) {
+                pedido = p;
+                break;
+            }
+        }
+        if (pedido != null) {
+            try {
+                pedido.cancelar();
+                System.out.println("Pedido cancelado! Status: " + pedido.getEstado().getNome());
+            } catch (Exception e) {
+                System.out.println("Erro ao cancelar pedido: " + e.getMessage());
+            }
+        } else {
+            System.out.println("Pedido não encontrado!");
         }
     }
 
