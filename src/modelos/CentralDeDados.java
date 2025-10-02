@@ -1,5 +1,7 @@
+package modelos;
 import java.util.ArrayList;
 import java.util.List;
+
 
 public class CentralDeDados {
     private static CentralDeDados instancia;

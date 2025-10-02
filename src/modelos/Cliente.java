@@ -1,3 +1,5 @@
+package modelos;
+
 public class Cliente {
 
     // Propriedades da classe
@@ -11,7 +13,6 @@ public class Cliente {
         this.nome = nome;
         this.telefone = telefone;
     }
-
 
     // Getters e Setters
     public int getCodigo() { return codigo; }
